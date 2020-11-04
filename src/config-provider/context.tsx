@@ -12,12 +12,12 @@ export interface ConfigConsumerProps {
   }
 }
 
-// export const ConfigContext = React.createContext<ConfigConsumerProps>({
-//   getPrefixCls: (suffixCls?: string,customizePrefixCls?:string) => {
-//     if(customizePrefixCls) return customizePrefixCls;
+export const ConfigContext = React.createContext<ConfigConsumerProps>({
+  getPrefixCls: (suffixCls?: string,customizePrefixCls?:string) => {
+    if(customizePrefixCls) return customizePrefixCls;
 
-//     return suffixCls ? `lb-${suffixCls}` : 'ant';
-//   },
-// })
+    return suffixCls ? `lb-${suffixCls}` : 'ant';
+  },
+})
 
-// export const ConfigConsumer = ConfigContext.Consumer
+export const ConfigConsumer = ConfigContext.Consumer
