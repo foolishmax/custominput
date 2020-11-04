@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import {prefixCls} from '../constants'
+// import {ConfigConsumer} from '../config-provider'
 import './index.less'
 
 type SizeType = 'small' | 'middle' | 'large' | undefined;
@@ -18,13 +19,42 @@ export default function CustomInput(props: InputProps) {
   })
 
   return (
-    <div className={`${prefixCls}-input-wraper`}>
-      <span className={`${prefixCls}-input-affix-wrapper`}>
-        <input
-        type="text"
-        className={`${prefixCls}-input ${inputClass}`}
-      />
-      </span>
-    </div>
+    <div>123</div>
+  // <ConfigConsumer>{this.renderComponent}</ConfigConsumer>
   )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // return (
+  //   <div className={`${prefixCls}-input-wraper`}>
+  //     <span className={`${prefixCls}-input-affix-wrapper`}>
+  //       <input
+  //       type="text"
+  //       className={`${prefixCls}-input ${inputClass}`}
+  //     />
+  //     </span>
+  //   </div>
+  // )
 }
