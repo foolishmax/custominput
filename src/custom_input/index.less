@@ -1,4 +1,59 @@
-.input {
-  width: 200px;
-  border: 1px solid red;
+@prefix: lb;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.lb-input-wraper {
+  width: 300px;
+  margin: 200px auto;
+
+  .@{prefix}-input-affix-wrapper {
+    padding: 6.5px 11px;
+    font-size: 16px;
+    width: 100%;
+    color: rgba(0, 0, 0, 0.85);
+    line-height: 1.5715;
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    transition: all .3s;
+    display: inline-flex;
+    &:hover {
+      border-color: #40a9ff;
+    }
+  }
+
+  .@{prefix}-input {
+    width: 100%;
+    padding: 0;
+    border: none;
+    outline: none;
+    line-height: 1.5715;
+    caret-color: #000000;
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  @supports (-webkit-mask: none) and (not (cater-color: red)) {
+    input {
+      color: #000000;
+      &::first-line {
+        color:rgba(0, 0, 0, 0.85);
+      }
+    }
+  }
+
+  .@{prefix}-lg {
+    font-size: 16px;
+  }
+
+  .@{prefix}-default {
+    font-size: 14px;
+  }
+
+  .@{prefix}-sm {
+    font-size: 12px;
+  }
+
 }

@@ -3,6 +3,6 @@ import ReactDOM from 'react-dom';
 import CustomInput from './custom_input/index'
 
 ReactDOM.render(
-  <CustomInput />,
+  <CustomInput size="large" />,
   document.getElementById('root')
 );

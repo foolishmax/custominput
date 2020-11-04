@@ -1,22 +1,30 @@
 import React from 'react'
 import classNames from 'classnames'
+import {prefixCls} from '../constants'
 import './index.less'
 
-export default function CustomInput() {
+type SizeType = 'small' | 'middle' | 'large' | undefined;
 
-  const onFocus = (e:any) => {
-    console.log(e)
-  }
+interface InputProps {
+  size?: SizeType; 
+}
+
+export default function CustomInput(props: InputProps) {
+  const {size} = props;
+
+  const inputClass = classNames(`${prefixCls}-input`,{
+    [`${prefixCls}-lg`]: size === 'large',
+    [`${prefixCls}-sm`]:size === 'small',
+  })
 
   return (
-    <div className="input">
-
-      <input
+    <div className={`${prefixCls}-input-wraper`}>
+      <span className={`${prefixCls}-input-affix-wrapper`}>
+        <input
         type="text"
-        onFocus={onFocus}
-        className={classNames("custom-input")}
-        // autoComplete={input.autoComplete}
+        className={`${prefixCls}-input ${inputClass}`}
       />
+      </span>
     </div>
   )
 }
