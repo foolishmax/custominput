@@ -1,8 +1,5 @@
 import React from 'react'
 
-type SizeType = 'small' | 'middle' | 'large' | undefined;
-const SizeContext = React.createContext<SizeType>(undefined);
-
 export type DirectionType = 'ltr' | 'rtl' | undefined;
 export interface ConfigConsumerProps {
   getPrefixCls: (suffixCls?: string,CustomizePrefixCls?: string) => string;
@@ -14,9 +11,9 @@ export interface ConfigConsumerProps {
 
 export const ConfigContext = React.createContext<ConfigConsumerProps>({
   getPrefixCls: (suffixCls?: string,customizePrefixCls?:string) => {
-    if(customizePrefixCls) return customizePrefixCls;
+    if(customizePrefixCls) return `${customizePrefixCls}-input`;
 
-    return suffixCls ? `lb-${suffixCls}` : 'ant';
+    return suffixCls ? `lb-${suffixCls}` : 'lb';
   },
 })
 
