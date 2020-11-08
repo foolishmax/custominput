@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState,useRef } from 'react'
 import classNames from 'classnames'
 import {ConfigConsumer,ConfigConsumerProps} from '../config-provider'
 import './index.less'
@@ -37,6 +37,22 @@ export function getInputClassName(
 }
 
 export default function CustomInput(props: InputProps) {
+  const _value = typeof props.value === 'undefined' ? props.defaultValue : props.value;
+  const [value, setValue] = useState<any>(_value);
+  const inputRef:any = useRef<HTMLInputElement>(null);
+
+  const resolveOnChange = (target:HTMLInputElement,e: React.ChangeEvent<HTMLInputElement>,onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void) => {
+    if (onChange) {
+      let event = e;
+      onChange(event as React.ChangeEvent<HTMLInputElement>);
+    }
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+    resolveOnChange(inputRef, e, props.onChange)
+  }
+
 
   const direction: any = 'ltr';
   
@@ -52,7 +68,7 @@ export default function CustomInput(props: InputProps) {
       <input
         autoComplete={input.autoComplete}
         // {...otherProps}
-        // onChange={this.handleChange}
+        onChange={handleChange}
         // onFocus={this.onFocus}
         // onBlur={this.onBlur}
         // onKeyDown={this.handleKeyDown}
@@ -62,7 +78,7 @@ export default function CustomInput(props: InputProps) {
             [className!]: className && !addonBefore && !addonAfter,
           },
         )}
-        // ref={this.saveInput}
+        ref={inputRef}
       />
     );
   };
@@ -77,6 +93,7 @@ export default function CustomInput(props: InputProps) {
         {size => (
           <ClearableLabeledInput
             prefixCls={prefixCls}
+            value={value}
             {...restProps}
             element={renderInput(prefixCls, size, bordered, input)}
             bordered={bordered}

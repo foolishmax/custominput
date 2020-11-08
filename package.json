@@ -1,7 +1,13 @@
 {
-  "name": "custom_input",
+  "name": "@libo/input",
   "version": "0.1.0",
-  "private": true,
+  "main":"lib/index.js",
+  "private":false,
+  "description": "This is a custom input component",
+  "keywords":[
+    "react",
+    "react input"
+  ],
   "dependencies": {
     "@babel/core": "7.12.3",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.2",
