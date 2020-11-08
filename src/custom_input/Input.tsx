@@ -39,11 +39,17 @@ export function getInputClassName(
 export default function CustomInput(props: InputProps) {
   const _value = typeof props.value === 'undefined' ? props.defaultValue : props.value;
   const [value, setValue] = useState<any>(_value);
+  const [focused, setFocused] = useState<boolean>(false);
+
   const inputRef:any = useRef<HTMLInputElement>(null);
 
-  const resolveOnChange = (target:HTMLInputElement,e: React.ChangeEvent<HTMLInputElement>,onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void) => {
+  const resolveOnChange = (target:any,e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLElement, MouseEvent>,onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void) => {
     if (onChange) {
       let event = e;
+      if (e.type === 'click') {
+        //点击allowClear按钮
+        onChange(event as React.ChangeEvent<HTMLInputElement>)
+      }
       onChange(event as React.ChangeEvent<HTMLInputElement>);
     }
   }
@@ -53,6 +59,19 @@ export default function CustomInput(props: InputProps) {
     resolveOnChange(inputRef, e, props.onChange)
   }
 
+  const handleReset = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    setValue('');
+    inputRef.current.focus();
+    resolveOnChange(inputRef, e, props.onChange);
+  }
+
+  const onFocus = (e: any) => {
+    setFocused(true);
+  }
+
+  const onBlur = (e: any) => {
+    setFocused(false);
+  }
 
   const direction: any = 'ltr';
   
@@ -69,8 +88,8 @@ export default function CustomInput(props: InputProps) {
         autoComplete={input.autoComplete}
         // {...otherProps}
         onChange={handleChange}
-        // onFocus={this.onFocus}
-        // onBlur={this.onBlur}
+        onFocus={onFocus}
+        onBlur={onBlur}
         // onKeyDown={this.handleKeyDown}
         className={classNames(
           getInputClassName(prefixCls, bordered, customizeSize || size, disabled, direction),
@@ -94,6 +113,8 @@ export default function CustomInput(props: InputProps) {
           <ClearableLabeledInput
             prefixCls={prefixCls}
             value={value}
+            focused={focused}
+            handleReset={handleReset}
             {...restProps}
             element={renderInput(prefixCls, size, bordered, input)}
             bordered={bordered}

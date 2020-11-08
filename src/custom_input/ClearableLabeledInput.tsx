@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { SizeType } from '../config-provider/SizeContext';
 import {InputProps} from './Input'
 import { cloneElement } from './reactNode'
+import CloseCircleFilled from '@ant-design/icons/CloseCircleFilled';
 
 export function hasPrefixSuffix(props: InputProps | ClearableInputProps) {
   return !!(props.prefix || props.suffix || props.allowClear);
@@ -16,10 +17,9 @@ interface BasicProps {
   prefixCls: string;
   style?:object;
   element: React.ReactElement;
+  handleReset: (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => void;
   className?: string;
   direction?: any;
-  addonBefore?: React.ReactNode;
-  addonAfter?: React.ReactNode;
   focused?: boolean;
   value?: any;
   disabled?: boolean;
@@ -30,6 +30,8 @@ interface BasicProps {
 
 interface ClearableInputProps extends BasicProps {
   size?: SizeType;
+  addonBefore?: React.ReactNode;
+  addonAfter?: React.ReactNode;
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
 }
@@ -38,58 +40,90 @@ export default function ClearableLabeledInput(props: ClearableInputProps) {
   const {prefixCls, element} = props;
   const containerRef = React.createRef<HTMLSpanElement>();
 
-  const renderLabeledIcon = (prefixCls: string, element: React.ReactElement) => {
-  const {
-    focused,
-    value,
-    prefix,
-    className,
-    size,
-    suffix,
-    disabled,
-    allowClear,
-    direction,
-    style,
-    readOnly,
-    bordered,
-  } = props;
-  // const suffixNode = renderSuffix(prefixCls);
-  if (!hasPrefixSuffix(props)) {
-    return cloneElement(element, {
-      value,
-    });
+  const renderClearIcon = (prefixCls: string) => {
+    const { allowClear, handleReset,value,disabled,readOnly } = props;
+    if (!allowClear) {
+      return null;
+    }
+
+    const needClear = !disabled && !readOnly && value;
+    return (
+      <CloseCircleFilled
+        onClick={handleReset}
+        className={classNames(`${prefixCls}-clear-icon`,{
+          [`${prefixCls}-clear-icon-hidden`]: !needClear,
+        })}
+      />
+    )
   }
 
-  const prefixNode = prefix ? <span className={`${prefixCls}-prefix`}>{prefix}</span> : null;
+  const renderSuffix = (prefixCls: string) => {
+    const { suffix, allowClear } = props;
+    if (suffix || allowClear) {
+      return (
+        <span className={`${prefixCls}-suffix`}>
+          {renderClearIcon(prefixCls)}
+          {suffix}
+        </span>
+      )
+    }
+    return null;
+  }
 
-  const affixWrapperCls = classNames(`${prefixCls}-affix-wrapper`, {
-    [`${prefixCls}-affix-wrapper-focused`]: focused,
-    [`${prefixCls}-affix-wrapper-disabled`]: disabled,
-    [`${prefixCls}-affix-wrapper-sm`]: size === 'small',
-    [`${prefixCls}-affix-wrapper-lg`]: size === 'large',
-    [`${prefixCls}-affix-wrapper-input-with-clear-btn`]: suffix && allowClear && value,
-    [`${prefixCls}-affix-wrapper-rtl`]: direction === 'rtl',
-    [`${prefixCls}-affix-wrapper-readonly`]: readOnly,
-    [`${prefixCls}-affix-wrapper-borderless`]: !bordered,
-    // className will go to addon wrapper
-    [`${className}`]: !hasAddon(props) && className,
-  });
-  return (
-    <span
-      ref={containerRef}
-      className={affixWrapperCls}
-      style={style}
-      // onMouseUp={onInputMouseUp}
-    >
-      {prefixNode}
-      {cloneElement(element, {
-        style: null,
-        value,
-        // className: getInputClassName(prefixCls, bordered, size, disabled),
-      })}
-      {/* {suffixNode} */}
-    </span>
-  );
+  const renderLabeledIcon = (prefixCls: string, element: React.ReactElement) => {
+    const {
+      focused,
+      value,
+      prefix,
+      className,
+      size,
+      suffix,
+      disabled,
+      allowClear,
+      direction,
+      style,
+      readOnly,
+      bordered,
+    } = props;
+    // const suffixNode = renderSuffix(prefixCls);
+    // if (!hasPrefixSuffix(props)) {
+    //   //增强代码健壮性，比如使用HOC时，确定传入的是否为React Element，防止渲染出错
+    //   return cloneElement(element, {
+    //     value,
+    //   });
+    // }
+    const suffixNode = renderSuffix(prefixCls);
+
+    const prefixNode = prefix ? <span className={`${prefixCls}-prefix`}>{prefix}</span> : null;
+
+    const affixWrapperCls = classNames(`${prefixCls}-affix-wrapper`, {
+      [`${prefixCls}-affix-wrapper-focused`]: focused,
+      [`${prefixCls}-affix-wrapper-disabled`]: disabled,
+      [`${prefixCls}-affix-wrapper-sm`]: size === 'small',
+      [`${prefixCls}-affix-wrapper-lg`]: size === 'large',
+      [`${prefixCls}-affix-wrapper-input-with-clear-btn`]: suffix && allowClear && value,
+      [`${prefixCls}-affix-wrapper-rtl`]: direction === 'rtl',
+      [`${prefixCls}-affix-wrapper-readonly`]: readOnly,
+      [`${prefixCls}-affix-wrapper-borderless`]: !bordered,
+      // className will go to addon wrapper
+      [`${className}`]: !hasAddon(props) && className,
+    });
+    return (
+      <span
+        ref={containerRef}
+        className={affixWrapperCls}
+        style={style}
+        // onMouseUp={onInputMouseUp}
+      >
+        {prefixNode}
+        {cloneElement(element, {
+          style: null,
+          value,
+          // className: getInputClassName(prefixCls, bordered, size, disabled),
+        })}
+        {suffixNode}
+      </span>
+    );
 }
 
 

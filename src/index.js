@@ -9,9 +9,12 @@ const onChange = (e) => {
 ReactDOM.render(
   <div className="wrapper">
     <CustomInput
+      // value="value"
       addonBefore="http://"
       addonAfter=".com"
-      // value="value"
+      prefix={123}
+      suffix={321}
+      allowClear
       defaultValue="defaultValue"
       size="large"
       bordered={true}

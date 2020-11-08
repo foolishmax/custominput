@@ -149,3 +149,79 @@
 .@{prefix}-input {
   .input()
 }
+
+.@{prefix}-input {
+  &-affix-wrapper {
+    .input();
+    display: inline-flex;
+
+    &:hover {
+      .hover();
+      z-index: 1;
+    }
+
+    &:focus,
+    &-focused {
+      z-index: 1;
+    }
+
+    &-disabled {
+      .@{prefix}-input[disabled] {
+        background: transparent;
+      }
+    }
+
+    > input.@{prefix}-input {
+      padding: 0;
+      border: none;
+      outline: none;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+  &-prefix,
+  &-suffix {
+    display: flex;
+    float: none;
+    align-items: center;
+  }
+  &-prefix {
+    margin-right: 4px;
+  }
+  &-suffix {
+    margin-left: 4px;
+  }
+}
+
+.@{prefix}-input-clear-icon {
+  margin: 0 4px;
+  color: rgba(0, 0, 0, .25);
+  font-size: 12px;
+  vertical-align: -1px;
+  cursor: pointer;
+  transition: color .3s;
+
+  &:hover {
+    color: rgba(0, 0, 0, .45);
+  }
+
+  &:active {
+    color: rgba(0, 0, 0, .85);
+    border: none;
+  }
+
+  &-hidden {
+    visibility: hidden;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+}
