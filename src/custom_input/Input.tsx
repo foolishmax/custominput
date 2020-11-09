@@ -90,6 +90,7 @@ export default function CustomInput(props: InputProps) {
         onChange={handleChange}
         onFocus={onFocus}
         onBlur={onBlur}
+        readOnly={props.readOnly || false}
         // onKeyDown={this.handleKeyDown}
         className={classNames(
           getInputClassName(prefixCls, bordered, customizeSize || size, disabled, direction),
@@ -127,39 +128,4 @@ export default function CustomInput(props: InputProps) {
   return (
   <ConfigConsumer>{renderComponent}</ConfigConsumer>
   )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // return (
-  //   <div className={`${prefixCls}-input-wraper`}>
-  //     <span className={`${prefixCls}-input-affix-wrapper`}>
-  //       <input
-  //       type="text"
-  //       className={`${prefixCls}-input ${inputClass}`}
-  //     />
-  //     </span>
-  //   </div>
-  // )
 }

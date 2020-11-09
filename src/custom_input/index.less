@@ -193,6 +193,12 @@
   &-suffix {
     margin-left: 4px;
   }
+
+  &::before {
+    width: 0;
+    visibility: hidden;
+    content: '\a0';
+  }
 }
 
 .@{prefix}-input-clear-icon {
@@ -223,5 +229,4 @@
   &:last-child {
     margin-right: 0;
   }
-
 }

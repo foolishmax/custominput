@@ -11,9 +11,11 @@ ReactDOM.render(
     <CustomInput
       // value="value"
       addonBefore="http://"
+      className="lbnizuishagnu"
       addonAfter=".com"
       prefix={123}
       suffix={321}
+      readOnly
       allowClear
       defaultValue="defaultValue"
       size="large"

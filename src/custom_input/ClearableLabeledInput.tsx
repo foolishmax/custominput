@@ -24,7 +24,6 @@ interface BasicProps {
   value?: any;
   disabled?: boolean;
   allowClear?: boolean;
-  readOnly?: boolean;
   bordered: boolean;
 }
 
@@ -41,12 +40,12 @@ export default function ClearableLabeledInput(props: ClearableInputProps) {
   const containerRef = React.createRef<HTMLSpanElement>();
 
   const renderClearIcon = (prefixCls: string) => {
-    const { allowClear, handleReset,value,disabled,readOnly } = props;
+    const { allowClear, handleReset,value,disabled } = props;
     if (!allowClear) {
       return null;
     }
 
-    const needClear = !disabled && !readOnly && value;
+    const needClear = !disabled && value;
     return (
       <CloseCircleFilled
         onClick={handleReset}
@@ -77,12 +76,8 @@ export default function ClearableLabeledInput(props: ClearableInputProps) {
       prefix,
       className,
       size,
-      suffix,
       disabled,
-      allowClear,
-      direction,
       style,
-      readOnly,
       bordered,
     } = props;
     // const suffixNode = renderSuffix(prefixCls);
@@ -101,9 +96,6 @@ export default function ClearableLabeledInput(props: ClearableInputProps) {
       [`${prefixCls}-affix-wrapper-disabled`]: disabled,
       [`${prefixCls}-affix-wrapper-sm`]: size === 'small',
       [`${prefixCls}-affix-wrapper-lg`]: size === 'large',
-      [`${prefixCls}-affix-wrapper-input-with-clear-btn`]: suffix && allowClear && value,
-      [`${prefixCls}-affix-wrapper-rtl`]: direction === 'rtl',
-      [`${prefixCls}-affix-wrapper-readonly`]: readOnly,
       [`${prefixCls}-affix-wrapper-borderless`]: !bordered,
       // className will go to addon wrapper
       [`${className}`]: !hasAddon(props) && className,
@@ -128,7 +120,7 @@ export default function ClearableLabeledInput(props: ClearableInputProps) {
 
 
   const renderInputWithLabel = (prefixCls: string, labeledElement: React.ReactElement) => {
-    const { addonBefore, addonAfter, style, size, className, direction } = props;
+    const { addonBefore, addonAfter, style, size, className } = props;
     // Not wrap when there is not addons
     if (!hasAddon(props)) {
       return labeledElement;
@@ -141,16 +133,13 @@ export default function ClearableLabeledInput(props: ClearableInputProps) {
     ) : null;
     const addonAfterNode = addonAfter ? <span className={addonClassName}>{addonAfter}</span> : null;
 
-    const mergedWrapperClassName = classNames(`${prefixCls}-wrapper`, wrapperClassName, {
-      [`${wrapperClassName}-rtl`]: direction === 'rtl',
-    });
+    const mergedWrapperClassName = classNames(`${prefixCls}-wrapper`, wrapperClassName);
 
     const mergedGroupClassName = classNames(
       `${prefixCls}-group-wrapper`,
       {
         [`${prefixCls}-group-wrapper-sm`]: size === 'small',
         [`${prefixCls}-group-wrapper-lg`]: size === 'large',
-        [`${prefixCls}-group-wrapper-rtl`]: direction === 'rtl',
       },
       className,
     );
